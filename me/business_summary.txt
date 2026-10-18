@@ -1,0 +1,5 @@
+Harborlight Learning Studio is a fictional Beirut based tutoring and study coaching service. Its mission is to help secondary school and first year university students learn with confidence through clear explanations and practical study plans.
+
+Services include one to one mathematics and introductory programming tutoring, small exam preparation groups, and four week study coaching plans. Sessions are available online or at the fictional studio in Hamra, Beirut. A free 20 minute discovery call helps students choose a service. Prices and tutor availability are confirmed after the call; no fixed prices or guarantees are published.
+
+The fictional team is Maya Haddad, learning director and mathematics tutor; Karim Nassar, introductory programming tutor; and Lina Farah, study coach. Harborlight's distinctive approach pairs a tutor with a short written practice plan after every session. Contact: hello@harborlight.example. Hours: Monday through Saturday, 10:00 to 19:00 Beirut time. This is a course project business; its address and email are illustrative and do not accept real bookings.
