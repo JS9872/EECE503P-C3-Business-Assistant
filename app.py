@@ -131,7 +131,7 @@ def chat(message: str, history: list | None = None, client=None) -> str:
             thinking_config=types.ThinkingConfig(thinking_level="low"))
         try:
             response = client.models.generate_content(
-                model=os.getenv("GEMINI_MODEL", "gemini-3.8-flash"),
+                model=os.getenv("GEMINI_MODEL", "gemini-3.1-flash-lite"),
                 contents=contents, config=config)
         except ClientError as error:
             if error.code == 429:
