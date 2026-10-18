@@ -10,6 +10,7 @@ from pathlib import Path
 from dotenv import load_dotenv
 from google import genai
 from google.genai import types
+from google.genai.errors import ClientError
 from pypdf import PdfReader
 
 ROOT = Path(__file__).resolve().parent
@@ -105,7 +106,7 @@ def chat(message: str, history: list | None = None, client=None) -> str:
         return "Please enter a message."
     intent = route_message(message)
     print(f"route={intent} message={message!r}")
-    if not os.getenv("GEMINI_API_KEY") and client is None:
+    if os.getenv("GEMINI_API_KEY") in (None, "", "replace_with_your_key") and client is None:
         return "The assistant needs a GEMINI_API_KEY in .env before it can answer."
     client = client or genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
     contents = [types.Content(role="model" if item["role"] == "assistant" else "user",
@@ -128,9 +129,14 @@ def chat(message: str, history: list | None = None, client=None) -> str:
             tool_config=types.ToolConfig(function_calling_config=types.FunctionCallingConfig(mode=mode)),
             automatic_function_calling=types.AutomaticFunctionCallingConfig(disable=True),
             thinking_config=types.ThinkingConfig(thinking_level="low"))
-        response = client.models.generate_content(
-            model=os.getenv("GEMINI_MODEL", "gemini-3.8-flash"),
-            contents=contents, config=config)
+        try:
+            response = client.models.generate_content(
+                model=os.getenv("GEMINI_MODEL", "gemini-3.8-flash"),
+                contents=contents, config=config)
+        except ClientError as error:
+            if error.code == 429:
+                return "The free Gemini quota is temporarily full. Please wait about a minute and try again."
+            raise
         calls = response.function_calls or []
         if not calls:
             return response.text or "I could not form a response. Please try again."
